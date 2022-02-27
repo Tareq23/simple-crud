@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -11,7 +12,10 @@ class PostController extends Controller
         return view('posts.index');
     }
     public function create(){
-        return view('posts.create');
+        $query_1 = DB::table('categories')->get();
+        $query_2 = DB::table('tags')->get();
+
+        return view('posts.create',['categories'=>$query_1,'tags'=>$query_2]);
     }
     public function store(){
 

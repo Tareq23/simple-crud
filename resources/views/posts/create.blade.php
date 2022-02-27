@@ -24,7 +24,11 @@
                                 <div class="form-group">
                                     <label for="post_category">category</label>
                                     <select id="post_category" name="category" class="form-control">
-                                        <option>cat d</option>
+                                       @if(count($categories))
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+                                       @endif
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -36,10 +40,18 @@
                                     <textarea type="text"  id="post_description" name="description" class="form-control" placeholder="Post Description"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="post_tag">category</label>
-                                    <select id="post_tag" name="tags[]" class="form-control">
-                                        <option>tag t</option>
+                                    <label for="post_tag">Tag</label>
+                                    <select id="post_tag" name="tags[]" class="form-control" multiple>
+                                        <option value="">select tags</option>
+                                        @if(count($tags))
+                                            @foreach($tags as $tag)
+                                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                            @endforeach
+                                       @endif
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <input class = "float-right btn btn-primary" type="submit" value="post"/>
                                 </div>
                             </form>
                        </div>
@@ -50,4 +62,19 @@
         </div>
 
     </div>
+@endsection
+
+
+@section('script')
+
+    <script>
+
+        
+        $("#post_tag").select2({
+            placeholder: "select tags",
+            allowClear: true
+        });
+
+    </script>
+
 @endsection
