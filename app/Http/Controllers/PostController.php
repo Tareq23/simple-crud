@@ -10,7 +10,14 @@ class PostController extends Controller
 {
     public function index()
     {
-        return view('posts.index');
+        $post_query = DB::table('posts')
+                            ->join('users','users.id', '=', 'posts.user_id')
+                            ->join('categories','categories.id','=','posts.category_id')
+                            ->select('posts.*','categories.name as category_name','users.name as user_name')
+                            ->where('posts.user_id',Auth::id())
+                            ->get();
+
+        return view('posts.index',['posts'=>$post_query]);
     }
     public function create(){
         $query_1 = DB::table('categories')->get();

@@ -49,7 +49,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+
+                                @foreach($posts as $post)
+
+                                    <tr>
+                                        <th>{{$post->id}}</th>
+                                        <td>{{$post->title}}</td>
+                                        <td>{{$post->user_name}}</td>
+                                        <td>{{$post->category_name}}</td>
+                                        <td>
+                                            <a class="btn btn-primary">view</a>
+                                            <a class="btn btn-success">edit</a>
+                                            <a class="btn btn-danger">delete</a>
+                                        </td>
+                                    </tr>
+
+                                @endforeach
+                                <!-- <tr>
                                     <th>1</th>
                                     <td>post title one</td>
                                     <td>tareq</td>
@@ -59,7 +75,7 @@
                                         <a class="btn btn-success">edit</a>
                                         <a class="btn btn-danger">delete</a>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                        </div>
