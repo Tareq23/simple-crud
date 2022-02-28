@@ -24,11 +24,14 @@
                             <form class="form-inline d-flex justify-content-between">
                                 <label for="category_filter">Category Filter</label>
                                 <select id="category_filter" class="form-control" name="category">
-                                    <option>select category</option>
+                                    <option value="">select category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}" {{ (Request::query('category') && Request::query('category') == $category->id) ? 'selected' : ''}}>{{$category->name}}</option>
+                                    @endforeach
                                 </select>
-                                <label for="keyword">&nbsp;&nbsp;</label>
-                                <input type="text" name="keyword" class="form-control" placeholder="Enter Keyword"/><span>&nbsp;</span>
-                                <button type="submit" class="btn btn-primary mb-2">search</button>
+                                <label for="search_keyword">&nbsp;&nbsp;</label>
+                                <input type="text" id="search_keyword" name="keyword" class="form-control" placeholder="Enter Keyword"/><span>&nbsp;</span>
+                                <button type="submit" onclick="search_post()" class="btn btn-primary mb-2">search</button>
                                 <a href="" class="btn btn-success">clear</a>
                             </form>
                        </div>
@@ -86,4 +89,25 @@
         </div>
 
     </div>
+@endsection
+
+
+@section('script')
+
+
+    <script type="text/javascript">
+
+        var query = <?php echo json_encode((object) Request::query()); ?>;
+        console.log(query);
+
+        function search_post()
+        {
+            Object.assign(query,{category:$("#category_filter").val});
+            Object.assign(query,{search:$("#search_keyword").val});
+            window.location.href="{{route('posts.index')}}?"+$.param(query);
+        }
+
+    </script>
+
+
 @endsection

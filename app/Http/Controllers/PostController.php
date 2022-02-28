@@ -8,17 +8,47 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $req)
     {
+        $category_query = DB::table('categories')->get();
         $post_query = DB::table('posts')
                             ->join('users','users.id', '=', 'posts.user_id')
                             ->join('categories','categories.id','=','posts.category_id')
                             ->select('posts.*','categories.name as category_name','users.name as user_name')
-                            ->where('posts.user_id',Auth::id())
-                            ->get();
+                            ->where('posts.user_id',Auth::id());
+                            // ->get();
+        if($req->category)
+        {
+            $post_query->where('categories.id','=',$req->category);
+        }
+        if(isset($req->keyword))
+        {
+            $post_query->where('posts.title','LIKE',"%{$req->keyword}%");
+        }
+        $posts = $post_query->get();
+        return view('posts.index',['posts'=>$posts,'categories'=>$category_query]);
 
-        return view('posts.index',['posts'=>$post_query]);
+
+
+        // string search without spaces
+
+        /*
+            $string = 'john doe';
+
+            // split on 1+ whitespace & ignore empty
+            $searchValue = preg_split('/\s+/',$string,-1,PREG_SPLIT_NO_EMPTY);
+
+            $users = User::where(function($q) use $searchValue){
+                foreach($searchValues as $value)
+                {
+                    $q->orWhere('name','like',"%{$value}%");
+                }
+            })->get();
+        */
     }
+
+
+
     public function create(){
         $query_1 = DB::table('categories')->get();
         $query_2 = DB::table('tags')->get();
