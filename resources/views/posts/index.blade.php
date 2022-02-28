@@ -16,6 +16,11 @@
                     <!-- <img class="card-img-top" src="" alt="Card image cap"> -->
                     <div class="card-body">
                        <div class="mb-2">
+                            @if (session('success'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                             <form class="form-inline d-flex justify-content-between">
                                 <label for="category_filter">Category Filter</label>
                                 <select id="category_filter" class="form-control" name="category">
